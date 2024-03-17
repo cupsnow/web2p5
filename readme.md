@@ -24,6 +24,34 @@ Build for redistribution.
 npm run build
 ```
 
+### Build for android
+
+1. Install android-studio, and android SDK and gradle.
+
+1. Refer cordova document to install supported android sdk components.
+
+1. Complete build for redistribution.
+
+1. Setup for cordova.
+
+    ```sh
+    npm install --global cordova
+    cordova platform add android
+    ```
+
+1. Generate apk file.
+
+    ```sh
+    ANDROID_HOME=~/07_sw/android-sdk \
+    JAVA_HOME=~/07_sw/android-studio/jbr \
+    PATH=~/07_sw/android-sdk/platform-tools:$PATH \
+    PATH=~/07_sw/android-sdk/cmdline-tools/latest/bin:$PATH \
+    PATH=~/07_sw/android-sdk/build-tools:$PATH \
+    PATH=~/07_sw/android-studio/jbr/bin:$PATH \
+    PATH=~/07_sw/gradle/bin:$PATH \
+    cordova build android
+    ```
+
 # Playground
 
 Placeholder for temper.

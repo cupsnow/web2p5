@@ -1,27 +1,37 @@
 const path = require('path');
 const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = (env) => {
 
     debug = !["production", "release", "prod"].some(k => k in env);
     console.log((debug ? "development" : "production"), "mode");
 
+    htmlTitle = debug ? 'Development' : 'Released';
+
+    cssExtractLoader = debug ? 'style-loader' : MiniCssExtractPlugin.loader;
+
     cfgBase = {
         entry: {
             index: './src/index.js',
         },
         devServer: {
-            static: './dist',
+            static: './www',
         },
         plugins: [
             new HtmlWebpackPlugin({
-                title: 'Development',
+                template: './src/index-template.html',
+                filename: 'index.html',
+                title: htmlTitle,
+            }),
+            new MiniCssExtractPlugin({
+                filename: '[name].[contenthash].css',
             }),
         ],
         output: {
             filename: '[name].[contenthash].js',
-            path: path.resolve(__dirname, 'dist'),
+            path: path.resolve(__dirname, 'www'),
             clean: true,
         },
         optimization: {
@@ -46,7 +56,7 @@ module.exports = (env) => {
                 },
                 {
                     test: /\.css$/i,
-                    use: ['style-loader', 'css-loader'],
+                    use: [cssExtractLoader, 'css-loader'],
                 },
                 {
                     test: /\.(png|svg|jpg|jpeg|gif)$/i,
